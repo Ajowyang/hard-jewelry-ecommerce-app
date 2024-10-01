@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
+import { NavBar } from './components/NavBar';
+import { HomePage } from './pages/HomePage';
+import { ProductPage } from './pages/ProductPage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 export default function App() {
   const [serverData, setServerData] = useState('');
@@ -21,14 +23,15 @@ export default function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<NavBar></NavBar>}>
+            <Route index element={<HomePage></HomePage>} />
+            <Route path="/products" element={<ProductPage></ProductPage>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+      <div></div>
       <h1>{serverData}</h1>
     </>
   );
