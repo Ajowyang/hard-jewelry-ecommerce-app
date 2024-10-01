@@ -4,6 +4,7 @@ import { NavBar } from './components/NavBar';
 import { HomePage } from './pages/HomePage';
 import { ProductPage } from './pages/ProductPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ProductDetailsPage } from './pages/ProductDetailsPage';
 
 export default function App() {
   const [serverData, setServerData] = useState('');
@@ -28,6 +29,10 @@ export default function App() {
           <Route path="/" element={<NavBar></NavBar>}>
             <Route index element={<HomePage></HomePage>} />
             <Route path="/products" element={<ProductPage></ProductPage>} />
+            <Route
+              path="/products/:productId"
+              element={<ProductDetailsPage></ProductDetailsPage>}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

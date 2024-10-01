@@ -17,6 +17,6 @@ insert into "customers"
       ('test', 'testPass');
 
 insert into "items"
-  ("name", "imageUrl", "qtyInStock", "size", "category", "material", "price" )
+  ("name", "imageUrl", "qtyInStock", "size", "category", "material", "price", "description" )
   values
-  ('testItem',  'testUrl',  99,  '18"',  'Chains',  'Stainless Steel',  '2999');
+  ('testItem',  'testUrl',  99,  '18"',  'Chains',  'Stainless Steel',  '2999', 'test description');

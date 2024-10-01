@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Product } from '../lib/data.ts';
+// import { useState } from 'react';
+// import { Product } from '../lib/data.ts';
 import { ProductCard } from './ProductCard';
 export function Catalog() {
   // const [products, setProducts] = useState<Product[]>();

@@ -1,4 +1,4 @@
-import { ProductCard } from '../components/ProductCard';
+// import { ProductCard } from '../components/ProductCard';
 import { Catalog } from '../components/ProductCatalog';
 export function ProductPage() {
   return (
