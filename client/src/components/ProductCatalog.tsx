@@ -1,96 +1,41 @@
-// import { useState } from 'react';
-// import { Product } from '../lib/data.ts';
+import { Prod } from '../lib/data.ts';
+
+import { useEffect, useState } from 'react';
 import { ProductCard } from './ProductCard';
+
 export function Catalog() {
-  // const [products, setProducts] = useState<Product[]>();
-  // const [error, setError] = useState<unknown>();
-  const products = [
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-    {
-      productId: 0,
-      name: 'dummy',
-      imageUrl: 'dummb',
-      price: 1234,
-      size: 'dummy',
-      material: 'dummy',
-    },
-  ];
+  const [products, setProducts] = useState<Prod[]>();
+  const [error, setError] = useState<unknown>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/products`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status:${response.status}`);
+        }
+        const data = (await response.json()) as Prod[];
+        setProducts(data);
+      } catch (err) {
+        console.error(err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <div className="flex flex-wrap justify-evenly">
-      {products?.map((prod) => (
-        <ProductCard></ProductCard>
+      {products?.map((prod, index) => (
+        <ProductCard
+          title={prod.name}
+          price={prod.lowestPrice}
+          imageUrl={prod.imageUrl}
+          itemId={prod.itemId}
+          key={index}></ProductCard>
       ))}
     </div>
   );
