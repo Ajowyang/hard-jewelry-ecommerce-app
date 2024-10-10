@@ -19,7 +19,7 @@ export type Prod = {
 export type CartProd = {
   imageUrl: string;
   itemId: number;
-  itemName: string | undefined;
+  itemName: string;
   size: string;
   material: string;
   qty: number;

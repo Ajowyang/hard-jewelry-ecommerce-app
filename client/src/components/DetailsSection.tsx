@@ -10,12 +10,13 @@ import { CartContext } from './CartContext';
 import { CartProd } from '../lib/data.ts';
 
 type ItemDetailsSectionProps = {
-  title: string | undefined;
+  title: string;
   price: number;
   material: string;
   size: string;
   possibleMaterials: string[];
   possibleSizes: string[];
+  cartImageUrl: string;
 };
 
 export function DetailsSection({
@@ -23,15 +24,16 @@ export function DetailsSection({
   price,
   possibleMaterials,
   possibleSizes,
+  cartImageUrl,
 }: ItemDetailsSectionProps) {
   const [activeMaterialId, setActiveMaterialId] = useState(0);
   const [activeSizeId, setActiveSizeId] = useState(0);
   const [activePrice, setActivePrice] = useState(price);
   const [error, setError] = useState<unknown>();
   const [loading, setLoading] = useState(true);
-  // const [product, setProduct] = useState<CartProd>();
+
   const { itemId } = useParams();
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, cart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,11 +87,8 @@ export function DetailsSection({
   ]);
 
   function handleAddToCart() {
-    // if (!product) throw new Error('Should never happen');
-
-    // addToCart(product);
     const ProdToAdd: CartProd = {
-      imageUrl: '',
+      imageUrl: cartImageUrl,
       itemId: Number(itemId),
       itemName: title,
       size: possibleSizes[activeSizeId],
@@ -99,6 +98,17 @@ export function DetailsSection({
     };
     console.log(':D ProdToAdd:', ProdToAdd);
     if (!ProdToAdd) throw new Error('Should never happen');
+    for (let i = 0; i < cart.length; i++) {
+      if (
+        ProdToAdd.itemName === cart[i].itemName &&
+        ProdToAdd.material === cart[i].material &&
+        ProdToAdd.size === cart[i].size
+      ) {
+        cart[i].qty++;
+        console.log('increased qty by 1');
+        return;
+      }
+    }
     addToCart(ProdToAdd);
     console.log('added!', CartContext);
     // navigate('/');

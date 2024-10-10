@@ -17,7 +17,6 @@ export function ProductDetailsPage() {
   const [error, setError] = useState<unknown>();
   const [loading, setLoading] = useState(true);
   const { itemId } = useParams();
-  const { addToCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,13 +105,6 @@ export function ProductDetailsPage() {
     return '/images/' + productListImage.imageURL;
   });
 
-  function handleAddToCart() {
-    if (!product) throw new Error('Should never happen');
-
-    addToCart(product);
-    navigate('/');
-  }
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -132,7 +124,8 @@ export function ProductDetailsPage() {
           material={MATERIAL}
           possibleMaterials={POSSIBLEMATERIALS}
           size={SIZE}
-          possibleSizes={POSSIBLESIZES}></DetailsSection>
+          possibleSizes={POSSIBLESIZES}
+          cartImageUrl={IMAGES[0]}></DetailsSection>
       </div>
       <div className="flex flex-col text-white justify-center w-full mx-10">
         <div className="w-full flex items-center justify-center">

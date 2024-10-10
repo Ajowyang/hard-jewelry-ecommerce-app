@@ -7,7 +7,7 @@ import { CartPage } from './pages/CartPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { CartContext, CartValue } from './components/CartContext';
-import { Prod, CartProd } from './lib/data.ts';
+import { CartProd } from './lib/data.ts';
 
 export default function App() {
   const [serverData, setServerData] = useState('');
@@ -15,6 +15,60 @@ export default function App() {
 
   function addToCart(product: CartProd): void {
     setCart([...cart, product]);
+  }
+  function removeFromCart(product: CartProd): void {
+    const newCart = cart.filter(
+      (prod) =>
+        prod.itemId != product.itemId ||
+        prod.material != product.material ||
+        prod.size != product.size
+    );
+    setCart(newCart);
+  }
+  function incrementQty(product: CartProd): void {
+    const newCart = cart.map((prod) => {
+      if (
+        prod.itemId === product.itemId &&
+        prod.material === product.material &&
+        prod.size === product.size
+      ) {
+        console.log('adding 1!!!!!');
+        const incrementedProd = {
+          imageUrl: prod.imageUrl,
+          itemId: prod.itemId,
+          itemName: prod.itemName,
+          size: prod.size,
+          material: prod.material,
+          qty: prod.qty + 1,
+          unitPrice: prod.unitPrice,
+        };
+        return incrementedProd;
+      }
+      return prod;
+    });
+    setCart(newCart);
+  }
+  function decrementQty(product: CartProd): void {
+    const newCart = cart.map((prod) => {
+      if (
+        prod.itemId === product.itemId &&
+        prod.material === product.material &&
+        prod.size === product.size
+      ) {
+        const decrementedProd = {
+          imageUrl: prod.imageUrl,
+          itemId: prod.itemId,
+          itemName: prod.itemName,
+          size: prod.size,
+          material: prod.material,
+          qty: prod.qty - 1,
+          unitPrice: prod.unitPrice,
+        };
+        return decrementedProd;
+      }
+      return prod;
+    });
+    setCart(newCart);
   }
 
   useEffect(() => {
@@ -32,6 +86,9 @@ export default function App() {
   const cartValue: CartValue = {
     cart,
     addToCart,
+    removeFromCart,
+    incrementQty,
+    decrementQty,
   };
   return (
     <>
