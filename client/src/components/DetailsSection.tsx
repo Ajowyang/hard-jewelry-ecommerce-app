@@ -11,7 +11,6 @@ import { CartProd } from '../lib/data.ts';
 
 type ItemDetailsSectionProps = {
   title: string;
-  price: number;
   possibleMaterials: string[];
   possibleSizes: string[];
   cartImageUrl: string;
