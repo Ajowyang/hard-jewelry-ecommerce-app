@@ -48,6 +48,7 @@ export default function App() {
     });
     setCart(newCart);
   }
+
   function decrementQty(product: CartProd): void {
     const newCart = cart.map((prod) => {
       if (
@@ -71,6 +72,11 @@ export default function App() {
     setCart(newCart);
   }
 
+  function clearCart() {
+    console.log('clear cart');
+    setCart([]);
+  }
+
   useEffect(() => {
     async function readServerData() {
       const resp = await fetch('/api/hello');
@@ -89,6 +95,7 @@ export default function App() {
     removeFromCart,
     incrementQty,
     decrementQty,
+    clearCart,
   };
   return (
     <>

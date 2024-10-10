@@ -2,7 +2,7 @@ import { FaPlus } from 'react-icons/fa6';
 import { FaMinus } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { MdOutlineCancel } from 'react-icons/md';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CartContext } from './CartContext';
 
 type CartItemProps = {
@@ -24,8 +24,47 @@ export function CartItem({
   qty,
   itemId,
 }: CartItemProps) {
+  const [activeInventoryStock, setActiveInventoryStock] = useState(0);
+  const [error, setError] = useState<unknown>();
   const { removeFromCart, incrementQty, decrementQty } =
     useContext(CartContext);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!itemId) {
+          throw new Error('itemId is required');
+        }
+        const cartItemMaterial = material;
+        const cartItemSize = size;
+        // if (!cartItemMaterial || !cartItemSize) {
+        //   throw new Error('material or size is not defined');
+        // }
+        const response = await fetch(`/api/getStock`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            itemId,
+            material: cartItemMaterial,
+            size: cartItemSize,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP Error! Status CI: ${response.status}`);
+        }
+        const data = await response.json();
+        setActiveInventoryStock(data[0].qtyInStock);
+        setError(undefined);
+      } catch (err) {
+        console.error(err);
+        setError(err);
+      }
+    };
+    fetchData();
+  });
+
   function handleRemoveFromCart() {
     console.log('handleRemoveFromCart function called');
     const prodToRemove = {
@@ -50,6 +89,10 @@ export function CartItem({
       qty: qty,
       unitPrice: price,
     };
+    if (qty === activeInventoryStock) {
+      alert('Item out of stock!');
+      return;
+    }
     incrementQty(prodToIncrement);
   }
   function handleDecrement() {
@@ -63,6 +106,9 @@ export function CartItem({
       unitPrice: price,
     };
     decrementQty(prodToDecrement);
+  }
+  if (error) {
+    return <div>error...</div>;
   }
 
   return (
@@ -78,7 +124,10 @@ export function CartItem({
             <Link to={`/products/details/${itemId}`}>
               <h1 className="hover:text-red-500">{title}</h1>
             </Link>
-            <h2>Material: {material}</h2>
+            <h2>
+              Material: {material}
+              {activeInventoryStock}
+            </h2>
             <h2>Size: {size}</h2>
           </div>
           <div

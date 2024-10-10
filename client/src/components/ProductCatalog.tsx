@@ -27,6 +27,13 @@ export function Catalog() {
     fetchData();
   }, []);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error...</div>;
+  }
+
   return (
     <div className="flex flex-wrap justify-evenly">
       {products?.map((prod, index) => (

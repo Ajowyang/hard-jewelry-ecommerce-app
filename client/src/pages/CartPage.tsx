@@ -1,15 +1,19 @@
 import { CartItem } from '../components/CartItem';
 import { CartContext } from '../components/CartContext';
-// import { CartProd } from '../lib/data.ts';
 import { useContext } from 'react';
 import { IoBagHandleOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 
 export function CartPage() {
-  const { cart } = useContext(CartContext);
+  const { cart, clearCart } = useContext(CartContext);
   const navigate = useNavigate();
   function handleClick() {
     navigate('/products');
+  }
+  function handleClearCart() {
+    console.log('handle success');
+    alert('Checkout Successful! Thank you for shopping with us!');
+    clearCart();
   }
 
   return (
@@ -63,7 +67,9 @@ export function CartPage() {
                 ).toFixed(2) + ' '}
                 USD
               </h1>
-              <button className="bg-red-500 rounded-full py-2 w-4/5 my-1">
+              <button
+                className="bg-red-500 rounded-full py-2 w-4/5 my-1"
+                onClick={handleClearCart}>
                 CHECK OUT
               </button>
             </div>

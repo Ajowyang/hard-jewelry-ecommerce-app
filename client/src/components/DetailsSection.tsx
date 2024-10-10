@@ -12,8 +12,6 @@ import { CartProd } from '../lib/data.ts';
 type ItemDetailsSectionProps = {
   title: string;
   price: number;
-  material: string;
-  size: string;
   possibleMaterials: string[];
   possibleSizes: string[];
   cartImageUrl: string;
@@ -21,14 +19,14 @@ type ItemDetailsSectionProps = {
 
 export function DetailsSection({
   title,
-  price,
   possibleMaterials,
   possibleSizes,
   cartImageUrl,
 }: ItemDetailsSectionProps) {
   const [activeMaterialId, setActiveMaterialId] = useState(0);
   const [activeSizeId, setActiveSizeId] = useState(0);
-  const [activePrice, setActivePrice] = useState(price);
+  const [activePrice, setActivePrice] = useState<number>(0);
+  const [activeInventoryStock, setActiveInventoryStock] = useState();
   const [error, setError] = useState<unknown>();
   const [loading, setLoading] = useState(true);
 
@@ -41,16 +39,12 @@ export function DetailsSection({
         if (!itemId) {
           throw new Error('itemId is required');
         }
-
         const material = possibleMaterials[activeMaterialId];
         const size = possibleSizes[activeSizeId];
         if (!material || !size) {
           throw new Error('material or size is not defined');
         }
 
-        console.log(
-          `/api/getPrice itemId=${itemId} material=${possibleMaterials[activeMaterialId]} size=${possibleSizes[activeSizeId]}`
-        );
         const response = await fetch(`/api/getPrice`, {
           method: 'POST',
           headers: {
@@ -86,7 +80,55 @@ export function DetailsSection({
     activeSizeId,
   ]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!itemId) {
+          throw new Error('itemId is required');
+        }
+        const material = possibleMaterials[activeMaterialId];
+        const size = possibleSizes[activeSizeId];
+        if (!material || !size) {
+          throw new Error('material or size is not defined');
+        }
+        const response = await fetch(`/api/getStock`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            itemId,
+            material: possibleMaterials[activeMaterialId],
+            size: possibleSizes[activeSizeId],
+          }),
+        });
+        if (!response.ok) {
+          throw new Error(`HTTP Error! Status DS: ${response.status}`);
+        }
+        const data = await response.json();
+        setActiveInventoryStock(data[0].qtyInStock);
+        setError(undefined);
+      } catch (err) {
+        console.error(err);
+        setError(err);
+      }
+    };
+    if (possibleMaterials.length > 0 && possibleSizes.length > 0) {
+      fetchData();
+    }
+  }, [
+    possibleMaterials,
+    possibleSizes,
+    itemId,
+    activeMaterialId,
+    activeSizeId,
+  ]);
+
   function handleAddToCart() {
+    if (activeInventoryStock === 0) {
+      alert('Item out of stock!');
+      return;
+    }
     const ProdToAdd: CartProd = {
       imageUrl: cartImageUrl,
       itemId: Number(itemId),
@@ -104,23 +146,23 @@ export function DetailsSection({
         ProdToAdd.material === cart[i].material &&
         ProdToAdd.size === cart[i].size
       ) {
+        if (cart[i].qty === activeInventoryStock) {
+          alert('Item out of stock!');
+          return;
+        }
         cart[i].qty++;
-        console.log('increased qty by 1');
+        alert('Product added! quantity increased by 1');
         return;
       }
     }
     addToCart(ProdToAdd);
-    console.log('added!', CartContext);
+    alert('Product added to Cart!');
     // navigate('/');
   }
 
   if (loading) {
     return <div>loading</div>;
   }
-
-  // if (error) {
-  //   return <div>Error</div>;
-  // }
 
   return (
     <div className="flex flex-col w-full md:w-7/12 px-2">
@@ -182,6 +224,9 @@ export function DetailsSection({
           )}
         </div>
       </div>
+      <h1 className="my-1 text-xs text-gray-300">
+        Inventory Status: {activeInventoryStock} in stock
+      </h1>
       <button
         className="bg-red-500 rounded-full text-center py-2 w-full my-2"
         onClick={handleAddToCart}>

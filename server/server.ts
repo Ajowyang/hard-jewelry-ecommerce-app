@@ -146,16 +146,31 @@ app.post('/api/getPrice', async (req, res, next) => {
       throw new ClientError(400, `itemId must be an integer`);
     }
 
-    // if (!['STL', 'STER'].includes(material)) {
-    //   throw new ClientError(400, `no such material`);
-    // }
-    // const materialType =
-    //   material === 'STL'
-    //     ? 'SOLID STAINLESS STEEL'
-    //     : 'SOLID .925 STERLING SILVER';
-
     const sql = `
     select "price" from "inventory"
+    where "itemId" = $1
+    AND "material" = $2
+    AND "size" = $3
+    `;
+    const result = await db.query(sql, [itemId, material, size]);
+    if (result.rows.length === 0) {
+      throw new ClientError(404, 'No item found in inventory');
+    }
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.post('/api/getStock', async (req, res, next) => {
+  try {
+    const { itemId, material, size } = req.body;
+    if (!Number.isInteger(+itemId)) {
+      throw new ClientError(400, `itemId must be an integer`);
+    }
+
+    const sql = `
+    select "qtyInStock" from "inventory"
     where "itemId" = $1
     AND "material" = $2
     AND "size" = $3

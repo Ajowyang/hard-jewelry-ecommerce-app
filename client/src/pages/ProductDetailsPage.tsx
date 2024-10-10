@@ -1,10 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DetailsImgCarousel } from '../components/DetailsImgCarousel';
 import { DetailsSection } from '../components/DetailsSection';
-// import { DetailsPageOptions } from '../lib/data';
 import { Prod, ProdSizes, ProdMaterials, ProdListImages } from '../lib/data.ts';
 import { useParams } from 'react-router-dom';
-import { CartContext } from '../components/CartContext';
 
 export function ProductDetailsPage() {
   const [product, setProduct] = useState<Prod>();
@@ -13,6 +11,7 @@ export function ProductDetailsPage() {
   const [productListingImages, setProductListingImages] = useState<
     ProdListImages[]
   >([]);
+
   // const [currentProd, setCurrentProd] = useState<CurrentProduct>();
   const [error, setError] = useState<unknown>();
   const [loading, setLoading] = useState(true);
@@ -90,13 +89,10 @@ export function ProductDetailsPage() {
     fetchData();
   }, [itemId]);
 
-  const PRICE = 36.95;
-  const MATERIAL = 'SOLID STAINLESS STEEL';
   const POSSIBLEMATERIALS = productMaterials?.map((productMaterial) => {
     return productMaterial.material;
   });
 
-  const SIZE = '7" FITTED';
   const POSSIBLESIZES = productSizes?.map((productSize) => {
     return productSize.size;
   });
@@ -120,10 +116,7 @@ export function ProductDetailsPage() {
 
         <DetailsSection
           title={product?.name}
-          price={PRICE}
-          material={MATERIAL}
           possibleMaterials={POSSIBLEMATERIALS}
-          size={SIZE}
           possibleSizes={POSSIBLESIZES}
           cartImageUrl={IMAGES[0]}></DetailsSection>
       </div>

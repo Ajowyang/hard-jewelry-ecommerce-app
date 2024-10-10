@@ -7,6 +7,7 @@ const defaultCartValue: CartValue = {
   removeFromCart: () => undefined,
   incrementQty: () => undefined,
   decrementQty: () => undefined,
+  clearCart: () => undefined,
 };
 
 export type CartValue = {
@@ -15,6 +16,7 @@ export type CartValue = {
   removeFromCart: (product: CartProd) => void;
   incrementQty: (product: CartProd) => void;
   decrementQty: (product: CartProd) => void;
+  clearCart: () => void;
 };
 
 export const CartContext = createContext<CartValue>(defaultCartValue);
