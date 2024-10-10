@@ -36,7 +36,20 @@ app.get('/api/products', async (req, res, next) => {
     next(err);
   }
 });
-// render products on catalog page
+
+app.get('/api/getProductsByCategory/:category', async (req, res, next) => {
+  try {
+    const { category } = req.params;
+    const sql = `
+    select * from items
+    where "category" = $1
+    `;
+    const result = await db.query(sql, [category]);
+    res.json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
 
 app.get('/api/products/:itemId', async (req, res, next) => {
   try {
@@ -259,25 +272,20 @@ app.put('/api/cart/update/:cartItemId', async (req, res, next) => {
 
 app.put('/api/updateStock', async (req, res, next) => {
   try {
-    const { itemId, material, size, newQty } = req.body;
+    const { itemId, material, size, qtyToSubtract } = req.body;
     if (!Number.isInteger(+itemId)) {
       throw new ClientError(400, `itemId must be integer`);
-    }
-    if (
-      !['SOLID STAINLESS STEEL', 'SOLID .92 STERLING SILVER'].includes(material)
-    ) {
-      throw new ClientError(400, `no such material`);
     }
 
     const sql = `
     update "inventory"
-    set "qtyInStock" =  $4
+    set "qtyInStock" =  ("qtyInStock" - $4)
     where ("itemId" = $1)
     AND ("material"= $2)
     AND ("size"= $3)
     returning *
     `;
-    const result = await db.query(sql, [itemId, material, size, newQty]);
+    const result = await db.query(sql, [itemId, material, size, qtyToSubtract]);
     res.json(result.rows);
   } catch (err) {
     next(err);

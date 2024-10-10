@@ -11,8 +11,22 @@ export function CartPage() {
     navigate('/products');
   }
   function handleClearCart() {
-    console.log('handle success');
     alert('Checkout Successful! Thank you for shopping with us!');
+    cart.forEach((cartItem) => {
+      fetch(`/api/updateStock`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          itemId: cartItem.itemId,
+          material: cartItem.material,
+          size: cartItem.size,
+          qtyToSubtract: cartItem.qty,
+        }),
+      });
+    });
+
     clearCart();
   }
 

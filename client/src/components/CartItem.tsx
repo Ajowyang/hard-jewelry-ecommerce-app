@@ -37,9 +37,6 @@ export function CartItem({
         }
         const cartItemMaterial = material;
         const cartItemSize = size;
-        // if (!cartItemMaterial || !cartItemSize) {
-        //   throw new Error('material or size is not defined');
-        // }
         const response = await fetch(`/api/getStock`, {
           method: 'POST',
           headers: {
@@ -124,10 +121,7 @@ export function CartItem({
             <Link to={`/products/details/${itemId}`}>
               <h1 className="hover:text-red-500">{title}</h1>
             </Link>
-            <h2>
-              Material: {material}
-              {activeInventoryStock}
-            </h2>
+            <h2>Material: {material}</h2>
             <h2>Size: {size}</h2>
           </div>
           <div

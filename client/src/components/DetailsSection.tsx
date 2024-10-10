@@ -157,7 +157,6 @@ export function DetailsSection({
     }
     addToCart(ProdToAdd);
     alert('Product added to Cart!');
-    // navigate('/');
   }
 
   if (loading) {
@@ -225,7 +224,7 @@ export function DetailsSection({
         </div>
       </div>
       <h1 className="my-1 text-xs text-gray-300">
-        Inventory Status: {activeInventoryStock} in stock
+        Inventory: {activeInventoryStock} in stock
       </h1>
       <button
         className="bg-red-500 rounded-full text-center py-2 w-full my-2"
