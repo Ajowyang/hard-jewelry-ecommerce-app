@@ -1,4 +1,4 @@
-# full-stack-project
+# Hard Jewelry E-commerce
 
 A full stack TypeScript solo project.
 
