@@ -1,6 +1,16 @@
-# Hard Jewelry E-commerce
+# Hard Jewelry Ecommerce
 
-A full stack TypeScript solo project.
+Hard Jewelry Ecommerce is a full stack e-comm web application for a jewelry Brand. Users can browse products, add to cart, and checkout. While shopping, users can select an item's size and material which will affect the price of the item due to the variation of the item they have selected.
+
+## Technologies
+<ul>
+<li>React</li>
+<li>Express</li>
+<li>PostgreSQL</li>
+<li>TypeScript</li>
+<li>Tailwind CSS</li>
+</ul>
+
 
 ## Getting Started
 
