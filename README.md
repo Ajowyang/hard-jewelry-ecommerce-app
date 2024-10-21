@@ -13,6 +13,7 @@ Hard Jewelry Ecommerce is a full stack e-comm web application for a jewelry Bran
 
 ## Using The App
 User can shop for products by clicking on 'Shop All' on the Navbar or the 'Shop Restock' button on the Home Screen
+<img width="1231" alt="Screenshot 2024-10-21 at 10 22 28 AM" src="https://github.com/user-attachments/assets/bb343230-7883-48ce-9e99-9097ff5daec1">
 
 ## Browse Products
 This will take the users to the Products page which contains a catalog of all products currently in the shop. Users can click on the product they want to purchase or view more details about.
