@@ -51,7 +51,6 @@ export function ProductDetailsPage() {
       }
     };
     fetchData();
-    console.log(productSizes);
   }, [itemId]);
 
   useEffect(() => {
@@ -69,7 +68,6 @@ export function ProductDetailsPage() {
       }
     };
     fetchData();
-    console.log(productMaterials);
   }, [itemId]);
 
   useEffect(() => {
@@ -115,7 +113,7 @@ export function ProductDetailsPage() {
         <DetailsImgCarousel images={IMAGES}></DetailsImgCarousel>
 
         <DetailsSection
-          title={product?.name}
+          title={product?.name ?? ''}
           possibleMaterials={POSSIBLEMATERIALS}
           possibleSizes={POSSIBLESIZES}
           cartImageUrl={IMAGES[0]}></DetailsSection>
