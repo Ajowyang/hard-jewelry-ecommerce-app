@@ -14,7 +14,7 @@ export function ProductCard({
   itemId,
 }: ProductCardProps) {
   return (
-    <div className="flex flex-col items-center ash w-64 lg:w-72 py-2 rounded-xl text-white my-2">
+    <div className="flex flex-col items-center ash w-64 lg:w-72 py-2 rounded-xl text-white my-4 mx-1">
       <Link to={`/products/details/${itemId}`}>
         <div className="h-60 lg:h-64 my-1 flex justify-center">
           <img
@@ -25,7 +25,9 @@ export function ProductCard({
       </Link>
       <div className=" flex flex-col items-center my-4 h-1/5">
         <Link to={`/products/details/${itemId}`}>
-          <h1 className="hover:text-red-700">{title}</h1>
+          <p className="hover:text-red-700 text-md text-center font-semibold">
+            {title}
+          </p>
         </Link>
         <h1 className="mt-2">{price}</h1>
       </div>

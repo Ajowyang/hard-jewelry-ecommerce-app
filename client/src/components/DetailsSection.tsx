@@ -146,7 +146,7 @@ export function DetailsSection({
         ProdToAdd.size === cart[i].size
       ) {
         if (cart[i].qty === activeInventoryStock) {
-          alert('Item out of stock!');
+          alert('Item out of stock');
           return;
         }
         cart[i].qty++;
