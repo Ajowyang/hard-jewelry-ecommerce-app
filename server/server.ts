@@ -201,8 +201,15 @@ app.post('/api/getStock', async (req, res, next) => {
 app.post('/api/cart/add', async (req, res, next) => {
   try {
     const { customerId, itemId, material, size, qty } = req.body;
-    if (!Number.isInteger(+customerId) || !Number.isInteger(+itemId)) {
-      throw new ClientError(400, `userId and customerId must be integers`);
+    if (
+      !Number.isInteger(+customerId) ||
+      !Number.isInteger(+itemId) ||
+      !Number.isInteger(+qty)
+    ) {
+      throw new ClientError(
+        400,
+        `userId, customerId, and qty must be integers`
+      );
     }
     if (
       !['SOLID STAINLESS STEEL', 'SOLID .92 STERLING SILVER'].includes(material)
