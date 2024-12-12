@@ -159,7 +159,7 @@ export function DetailsSection({
   }
 
   if (loading) {
-    return <div>loading</div>;
+    return <div>loading...</div>;
   }
 
   return (
