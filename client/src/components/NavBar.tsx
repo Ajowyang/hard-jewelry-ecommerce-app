@@ -5,6 +5,7 @@ import { FaCaretDown } from 'react-icons/fa6';
 import { Outlet, Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { CartContext } from './CartContext';
+import { WishlistItem } from './WishlistItem';
 
 export function NavBar() {
   const { cart } = useContext(CartContext);
@@ -14,16 +15,31 @@ export function NavBar() {
     setIsVisibleWishlist(false);
   }
 
+  function handleOpen() {
+    setIsVisibleWishlist(true);
+  }
+
   return (
     <>
       {isVisibleWishlist && (
-        <div className=" flex flex-col fixed top-0 left-0 h-full w-1/3 bg-gray-100 shadow-lg z-50">
-          <div className="flex justify-end text-3xl">
-            <div onClick={handleClose}>
-              <IoClose />
+        <div className="flex fixed h-full w-full">
+          <div className=" flex flex-col p-2 h-full fixed w-2/5 h-full bg-gray-700 shadow-lg z-50 text-white">
+            <div className="flex justify-end text-3xl">
+              <div onClick={handleClose}>
+                <IoClose />
+              </div>
             </div>
+            <div className="flex flex-col">
+              <h1 className="text-3xl mb-2">Wishlist</h1>
+              <p className="text-sm my-2">
+                Add items to your wishlist now so you don't forget to add to
+                cart later
+              </p>
+            </div>
+
+            <WishlistItem />
           </div>
-          <h1>Test</h1>
+          <div className="fixed w-full h-full" onClick={handleClose}></div>
         </div>
       )}
       <div>
@@ -51,7 +67,7 @@ export function NavBar() {
             <div className="hover:text-red-500">
               <FaMagnifyingGlass size={20} />
             </div>
-            <div className="hover:text-red-500">
+            <div className="hover:text-red-500" onClick={handleOpen}>
               <FaRegHeart size={20} />
             </div>
             <div className="hover:text-red-500 relative">
