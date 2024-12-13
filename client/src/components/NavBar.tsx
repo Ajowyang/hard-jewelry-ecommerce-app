@@ -1,18 +1,31 @@
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { FaRegHeart } from 'react-icons/fa';
-import { IoBagHandleOutline } from 'react-icons/io5';
+import { IoBagHandleOutline, IoClose } from 'react-icons/io5';
 import { FaCaretDown } from 'react-icons/fa6';
 import { Outlet, Link } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CartContext } from './CartContext';
 
 export function NavBar() {
   const { cart } = useContext(CartContext);
+  const [isVisibleWishlist, setIsVisibleWishlist] = useState(true);
+
+  function handleClose() {
+    setIsVisibleWishlist(false);
+  }
+
   return (
     <>
-      <div className="fixed top-0 left-0 h-full w-1/2 bg-gray-100 shadow-lg z-50">
-        <h1>Test</h1>
-      </div>
+      {isVisibleWishlist && (
+        <div className=" flex flex-col fixed top-0 left-0 h-full w-1/3 bg-gray-100 shadow-lg z-50">
+          <div className="flex justify-end text-3xl">
+            <div onClick={handleClose}>
+              <IoClose />
+            </div>
+          </div>
+          <h1>Test</h1>
+        </div>
+      )}
       <div>
         <div className="w-full flex text-white bg-black justify-between py-4 px-4 border-b">
           <div className="w-32 pl-4">
