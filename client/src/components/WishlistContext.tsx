@@ -8,6 +8,7 @@ const defaultWishlistValue: WishlistValue = {
   incrementQty: () => undefined,
   decrementQty: () => undefined,
   clearWishlist: () => undefined,
+  addWishlistToCart: () => undefined,
 };
 
 export type WishlistValue = {
@@ -17,6 +18,7 @@ export type WishlistValue = {
   incrementQty: (product: CartProd) => void;
   decrementQty: (product: CartProd) => void;
   clearWishlist: () => void;
+  addWishlistToCart: () => void;
 };
 
 export const WishlistContext =
