@@ -2,18 +2,15 @@ import { useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 
 export function Wishlist() {
-  const [isVisibleWishlist, setIsVisibleWishlist] = useState(true);
+  const [isVisible, setIsVisible] = useState(true);
 
   function handleClose() {
-    setIsVisibleWishlist(false);
+    setIsVisible(false);
   }
 
-  // function handleOpen() {
-  //   setIsVisibleWishlist(true);
-  // }
   return;
   {
-    isVisibleWishlist && (
+    isVisible && (
       <div className="fixed h-full w-full">
         <div className=" flex flex-col p-2 h-full fixed w-1/3 h-full bg-gray-700 shadow-lg z-50 text-white">
           <div className="flex justify-end text-3xl">
