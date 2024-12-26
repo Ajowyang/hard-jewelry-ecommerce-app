@@ -1,11 +1,12 @@
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { FaRegHeart } from 'react-icons/fa';
-import { IoBagHandleOutline, IoClose } from 'react-icons/io5';
+import { IoBagHandleOutline } from 'react-icons/io5';
 import { FaCaretDown } from 'react-icons/fa6';
 import { Outlet, Link } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { CartContext } from './CartContext';
-import { WishlistItem } from './WishlistItem';
+// import { WishlistItem } from './WishlistItem';
+import { Wishlist } from './Wishlist';
 
 export function NavBar() {
   const { cart } = useContext(CartContext);
@@ -17,31 +18,15 @@ export function NavBar() {
 
   function handleOpen() {
     setIsVisibleWishlist(true);
+    console.log('fire');
   }
 
   return (
     <>
       {isVisibleWishlist && (
-        <div className="flex fixed h-full w-full">
-          <div className=" flex flex-col p-2 h-full fixed w-2/5 h-full bg-gray-700 shadow-lg z-50 text-white">
-            <div className="flex justify-end text-3xl">
-              <div onClick={handleClose}>
-                <IoClose />
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-3xl mb-2">Wishlist</h1>
-              <p className="text-sm my-2">
-                Add items to your wishlist now so you don't forget to add to
-                cart later
-              </p>
-            </div>
-
-            <WishlistItem />
-          </div>
-          <div className="fixed w-full h-full" onClick={handleClose}></div>
-        </div>
+        <Wishlist visible={isVisibleWishlist} onClose={handleClose}></Wishlist>
       )}
+
       <div>
         <div className="w-full flex text-white bg-black justify-between py-4 px-4 border-b">
           <div className="w-32 pl-4">
